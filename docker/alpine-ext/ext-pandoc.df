@@ -1,0 +1,13 @@
+FROM ext-alpine AS main
+
+COPY --from=base--pandoc / /
+
+
+
+IMPORT ../_imports/ci.df
+
+IMPORT ../_imports/onbuild.df
+
+
+
+FROM main

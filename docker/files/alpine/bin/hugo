@@ -1,0 +1,112 @@
+#!/bin/sh
+
+# This script wraps the Hugo executable to add arguments for some of the commands.
+
+# Load environment configuration
+. /etc/profile.d/hugo.sh
+
+opts=""
+
+case "$1" in
+
+    # Commands from hugo
+
+    "benchmark")
+        exec hugo-official $@
+        ;;
+
+    "config")
+        exec hugo-official $@
+        ;;
+
+    "convert")
+        exec hugo-official $@
+        ;;
+
+    "env")
+        exec hugo-official $@
+        ;;
+
+    "gen")
+        exec hugo-official $@
+        ;;
+
+    "help")
+        exec hugo-official $@
+        ;;
+
+    "import")
+        exec hugo-official $@
+        ;;
+
+    "list")
+        exec hugo-official $@
+        ;;
+
+    "mod")
+        exec hugo-official $@
+        ;;
+
+    "new")
+        exec hugo-official $@
+        ;;
+
+    "serve")
+        # Override bind host as we are running inside a Docker container.
+        opts="$opts --bind=${HUGO_BIND}"
+
+        exec hugo-official $@ $opts
+        ;;
+
+    "server")
+        # Override bind host as we are running inside a Docker container.
+        opts="$opts --bind=${HUGO_BIND}"
+
+        exec hugo-official $@ $opts
+        ;;
+
+    "undraft")
+        exec hugo-official $@
+        ;;
+
+    "version")
+        exec hugo-official $@
+        ;;
+
+    "deploy")
+        exec hugo-official $@
+        ;;
+
+    # Commands special to docker image
+
+    "shell")
+        exec bash -l
+        ;;
+
+    "build")
+        # Override destination folder when other folder than "public" is set.
+        test "$HUGO_DESTINATION" = "public" || opts="$opts --destination=${HUGO_DESTINATION}"
+
+        # Fixing chtimes error when running in unpriviledged mode.
+        # https://github.com/gohugoio/hugo/issues/7302
+        test "$(id -u)" = "0" || opts="$opts --noTimes"
+
+        shift
+        exec hugo-official $@ $opts
+        ;;
+        
+
+    # Default build command
+
+    *)
+        # Override destination folder when other folder than "public" is set.
+        test "$HUGO_DESTINATION" = "public" || opts="$opts --destination=${HUGO_DESTINATION}"
+
+        # Fixing chtimes error when running in unpriviledged mode.
+        # https://github.com/gohugoio/hugo/issues/7302
+        test "$(id -u)" = "0" || opts="$opts --noTimes"
+        
+        exec hugo-official $@ $opts
+        ;;
+
+esac
