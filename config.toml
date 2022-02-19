@@ -1,7 +1,6 @@
 # baseURL = "/"
-baseURL = "https://nadarobotics.github.io/website"
+baseURL = "nadarobotics.github.io/website/"
 title = "Nada Robots"
-
 
 enableRobotsTXT = true
 
