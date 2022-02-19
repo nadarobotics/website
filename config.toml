@@ -1,5 +1,5 @@
-# baseURL = "/"
-baseURL = "http://nadarobotics.github.io/website/"
+#baseURL = "https://nadarobotics.github.io/website/"
+baseURL = "https://www.nadarobots.com/"
 title = "Nada Robots"
 
 enableRobotsTXT = true
